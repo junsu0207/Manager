@@ -3,6 +3,7 @@ package member.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import member.bean.MemberDTO;
 import member.dao.MemberDAO;
 
 @Service
@@ -19,6 +20,11 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public boolean isExistId(String id) {
 		return memberDAO.checkUserId(id);
+	}
+
+	@Override
+	public int userSignUp(MemberDTO memberDTO) {
+		return memberDAO.signUp(memberDTO);
 	}
 
 }

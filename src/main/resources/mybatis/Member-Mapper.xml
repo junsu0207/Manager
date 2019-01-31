@@ -17,7 +17,14 @@
   	
   	<!-- 회원정보 저장  -->
   	<insert id="insertUser" parameterType="memberDTO">
-		INSERT INTO USERINFO VALUES ( #{id}, #{password}, #{name}, #{insdate});
+		INSERT INTO USERINFO VALUES( #{id}, #{password}, #{name}, sysdate, default)
+	</insert>
+	
+	<!-- 회원정보디테일 저장 -->
+	<insert id="insertUser" parameterType="memberDTO">
+		INSERT INTO USERINFODETAIL VALUES 
+		(#{id},(select concat('U',lpad(substr(max(USERINFODETAILCD),2)+1,8,'0')) from USERINFODETAIL),
+		'#{relcd}' ,#{addrcd} ,#{addrname} ,#{mobileTelNo}, #{homeTelNo},#{insuser} ,#{insdate} ,#{useyn} ,#{delivName})
 	</insert>
   </mapper>
   

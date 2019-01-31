@@ -1,42 +1,43 @@
 package member.controller;
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.xml.ws.Response;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.ModelAndViewDefiningException;
+
+import member.bean.MemberDTO;
 
 @Controller
 public class MemberController {
 	
 	@Autowired
-	private MemberServiceImpl MemberService;
+	private MemberServiceImpl memberService;
 	
-	@RequestMapping(value="/login/loginForm")
+	@RequestMapping(value="/member/loginForm")
 	public ModelAndView login(HttpServletRequest request, ModelAndView modelAndView) {
 		System.out.println("로그인폼 ");
-		modelAndView.setViewName("/login/loginForm.jsp");
+		modelAndView.setViewName("/member/loginForm.jsp");
 		return modelAndView;
 	}
 	
-	@RequestMapping(value="/login/signUpForm")
+	@RequestMapping(value="/member/signUpForm")
 	public ModelAndView signUpForm(HttpServletRequest request, ModelAndView modelAndView) {
 		System.err.println("회원가입폼");
-		modelAndView.setViewName("/login/signUpForm.jsp");
+		modelAndView.setViewName("/member/signUpForm.jsp");
 		return modelAndView;
 	}
 	
-	@RequestMapping(value="/login/write")
+	@RequestMapping(value="/member/write")
 	public ModelAndView loginWrite(HttpServletRequest request, ModelAndView modelAndView) {
 		System.out.println("로그인정보전달");
 		String id = request.getParameter("id");
 		String password = request.getParameter("password");
-		String name = MemberService.loginMember(id, password);
+		String name = memberService.loginMember(id, password);
 		
 		if(name != null) {
 			HttpSession session = request.getSession();
@@ -44,33 +45,73 @@ public class MemberController {
 			session.setAttribute("memberName", name);
 			modelAndView.setViewName("../main/index.jsp");
 		}else {
-			modelAndView.setViewName("/login/loginForm.jsp");
+			modelAndView.setViewName("/member/loginForm.jsp");
 		}
 		
 		return modelAndView;
 	}
 	
-	@RequestMapping(value="/login/checkId")
-	@ResponseBody
-	public ModelAndView checkUserId(HttpServletRequest request, ModelAndView modelAndView) {
-		System.out.println("아이디체크");
-		String id = request.getParameter("ID");
-		System.out.println(id);
-		boolean result = MemberService.isExistId(id);
-		modelAndView.addObject("result",result);
-		modelAndView.setViewName("jsonView");
-		return modelAndView;
-	}
-	
 //	@RequestMapping(value="/login/checkId")
 //	@ResponseBody
-//	public boolean checkUserId(HttpServletRequest request) {
-//		System.out.println("아이디체크2222");
+//	public ModelAndView checkUserId(HttpServletRequest request, ModelAndView modelAndView) {
+//		System.out.println("아이디체크");
 //		String id = request.getParameter("ID");
 //		System.out.println(id);
 //		boolean result = MemberService.isExistId(id);
-//		return result;
+//		modelAndView.addObject("result",result);
+//		modelAndView.setViewName("jsonView");
+//		return modelAndView;
 //	}
+	
+	@RequestMapping(value="/member/checkId")
+	@ResponseBody
+	public boolean checkUserId(HttpServletRequest request) {
+		System.out.println("아이디체크2222");
+		String id = request.getParameter("ID");
+		System.out.println(id);
+		boolean result = memberService.isExistId(id);
+		return result;
+	}
+	
+	@RequestMapping(value="/member/signUpWrite")
+	public ModelAndView SignUp(HttpServletRequest request, ModelAndView modelAndView) {
+		System.out.println("회원가입test");
+		String id = request.getParameter("id");
+		String password = request.getParameter("password");
+		String name = request.getParameter("name");
+		MemberDTO memberDTO = new MemberDTO();
+		memberDTO.setId(id);
+		memberDTO.setPassword(password);
+		memberDTO.setName(name);
+//		String temp = new SimpleDateFormat("yy/MM/hh").format(new Date());
+//		System.out.println(temp);
+		int result = memberService.userSignUp(memberDTO);
+		System.out.println(result);
+//		화면이동 바로
+//		if(result > 0) {
+//			modelAndView.setViewName("/member/detail.jsp");
+//			modelAndView.addObject("id", id);
+//			modelAndView.addObject("password", password);
+//			modelAndView.addObject("name", name);
+//		}else {
+//			modelAndView.setViewName("/member/signUpForm.jsp");
+//		}
+		modelAndView.setViewName("/member/signUpWrite.jsp");
+		modelAndView.addObject("result", result);
+		modelAndView.addObject("id", id);
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="/member/detail")
+	public ModelAndView detail(HttpServletRequest request, ModelAndView modelAndView) {
+		System.err.println("디테일");
+		modelAndView.setViewName("/member/detail.jsp");
+		return modelAndView;
+	}
+	
+	
+	
+	
 	
 	
 }

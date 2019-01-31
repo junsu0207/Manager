@@ -8,7 +8,7 @@
 <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
 </head>
 <body>
-	<form action="" method="post" name="signUpForm">
+	<form action="/Manager/member/signUpWrite" method="post" name="signUpForm">
 			<table align="center">
 				<tr>
 					<td>아 이 디 : <input type="text" name="id" id="id" placeholder="아이디를 입력하세요">
@@ -33,6 +33,7 @@
 	</form>
 	
 	<script type="text/javascript">
+		var temp = false;
 		$(document).ready(function(){
 			$("#checkId").unbind("click").click(function(e){
 				e.preventDefault();
@@ -48,17 +49,17 @@
 				{
 					$.ajax({
 						type : "POST",
-						url : "/Manager/login/checkId",
+						url : "/Manager/member/checkId",
 						data : userData,
 						dataType : "json",
 						error : function(error){
 							alert("서버가 응답하지 않음.\n다시 시도");
 						},
 						success : function(result){
-							if(result.result == false){
-								$("#id").attr("disabled", true);
+							if(result == false){
 								alert("사용가능");
-							}else if(result.result == true){
+								temp = true;
+							}else if(result == true){
 								alert("사용안됨");
 							}else{
 								alert("에러발생");
@@ -74,22 +75,25 @@
 			var pwdCk2 = $("#passwordCheck").val();
 			if(document.signUpForm.id.value == ""){
 				alert("id입력!");
-				document.signUpForm.id.focus();
+				$("#id").focus();
 			}else if(document.signUpForm.password.value == ""){
 				alert("password입력!");
-				document.signUpForm.password.focus();
+				$("#password").focus();
 			}else if(document.signUpForm.passwordCheck.value == ""){
 				alert("password확인입력!");
-				document.signUpForm.passwordCheck.focus();
+				$("#passwordCheck").focus();
 			}else if(document.signUpForm.name.value == ""){
 				alert("성함입력!");
-				document.signUpForm.name.focus();
+				$("#name").focus();
 			}else if(pwdCk1 != pwdCk2){
 				alert("비밀번호가 같지 않음");
 				document.signUpForm.password.focus();
-			}else if(pwdCk1.length <= 5 || pwdCk1.length >= 10){
+				$("#password").focus();
+			}else if(pwdCk1.length < 5 || pwdCk1.length > 10){
 				alert("비밀번호 길이 확인");
-				document.signUpForm.password.focus();
+				$("#password").focus();
+			}else if(!temp){
+				alert("아이디 중복체크");
 			}else{
 				document.signUpForm.submit();
 			}

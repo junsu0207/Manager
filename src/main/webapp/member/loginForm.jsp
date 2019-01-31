@@ -6,7 +6,7 @@
 <title>LOGIN</title>
 </head>
 <body>
-	<form action="/Manager/login/write" method="post" name="writeForm">
+	<form action="/Manager/member/write" method="post" name="writeForm">
 			<table align="center">
 				<tr>
 					<td>아 이 디 : <input type="text" name="id" id="id" placeholder="아이디를입력하세요">
@@ -16,7 +16,7 @@
 				</tr>
 				<tr>
 					<td colspan="1" align="center"><input type="button" value="Login" onclick="checkWrite()">
-					<input type="button" value="Sign Up" onclick="location.href='/Manager/login/signUpForm'">
+					<input type="button" value="Sign Up" onclick="location.href='/Manager/member/signUpForm'">
 				</tr>
 			</table>
 	</form>

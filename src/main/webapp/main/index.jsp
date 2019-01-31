@@ -11,7 +11,7 @@
 	<div class="menu">
 		<ul>
 			<li onclick="location.href='/Manager/emp/empList'">list</li>
-			<li onclick="location.href='/Manager/login/loginForm'">Sign in</li>
+			<li onclick="location.href='/Manager/member/loginForm'">Sign in</li>
 		</ul>
 	</div>
 </body>

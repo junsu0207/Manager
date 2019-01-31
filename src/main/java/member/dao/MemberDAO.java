@@ -7,12 +7,15 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import member.bean.MemberDTO;
+
 @Repository
 public class MemberDAO {
 	
 	@Autowired
 	SqlSessionTemplate sqlSession;
 	
+	// 로그인
 	public String login(String id, String password) {
 		Map<String, String> map = new HashMap<>();
 		map.put("id", id);
@@ -20,6 +23,7 @@ public class MemberDAO {
 		return sqlSession.selectOne("mybatis.member.login", map);
 	}
 	
+	// id중복체크
 	public boolean checkUserId(String id) {
 		boolean result = false;
 		if(sqlSession.selectOne("mybatis.member.checkUserId", id) != null) {
@@ -27,6 +31,11 @@ public class MemberDAO {
 		}
 		System.out.println(result);
 		return result;
+	}
+	
+	// 회원가입
+	public int signUp(MemberDTO memberDTO) {
+		return sqlSession.insert("mybatis.member.insertUser", memberDTO);
 	}
 
 }

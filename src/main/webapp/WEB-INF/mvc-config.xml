@@ -16,5 +16,6 @@
 
 	<context:component-scan base-package="emp.controller"/>
 	<context:component-scan base-package="member.controller"/>
+	<context:component-scan base-package="codemng.controller"/>
 
 </beans>
