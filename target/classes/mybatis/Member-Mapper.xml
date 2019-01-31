@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+  
+  <mapper namespace="mybatis.member">
+  
+  	<!--  로그인  -->
+  	<select id="login" parameterType="java.util.Map" resultType="String">
+  		SELECT NAME FROM USERINFO WHERE ID=#{id} AND PASS=#{password}
+  	</select>
+  	
+  	<!-- 아이디중복확인  -->
+  	<select id="checkUserId" parameterType="String" resultType="String">
+  		SELECT ID FROM USERINFO WHERE ID=#{id}
+  	</select>
+  	
+  	<!-- 회원정보 저장  -->
+  	<insert id="insertUser" parameterType="memberDTO">
+		INSERT INTO USERINFO VALUES ( #{id}, #{password}, #{name}, #{insdate});
+	</insert>
+  </mapper>
+  
