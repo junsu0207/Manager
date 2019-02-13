@@ -4,10 +4,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>회원가입상세</title>
+<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
 </head>
 <body>
-	<form action="" method="post" name="detailForm">
+	<form action="/Manager/member/detailWrite" method="post" name="detailForm">
+		<input type="hidden" name="id" id="id" value="${id }">
 		<table align="center">
 			<tr>
 				<td colspan="2" align="center"> 상세정보
@@ -27,7 +29,7 @@
 			</tr>
 			<tr>
 				<td> 우편번호 : 
-				<td><input type="text" name="name" id="name" placeholder="우편번호">
+				<td><input type="text" name="zipCode" id="zipCode" placeholder="우편번호">
 			</tr>
 			<tr>
 				<td> 주소 :	
@@ -45,7 +47,31 @@
 				<td> 사용여부 : 
 				<td><input type="checkbox" id="useyn" name="useyn" checked="checked" value="Y">
 			</tr>
+			<tr>
+				<td colspan="2" align="center"><input type="button" value="Save" onclick="checkWrite()">
+			</tr>
 		</table>
 	</form>
+	
+	<script type="text/javascript">
+		function checkWrite(){
+			var phone = $("#phone").val();
+			var homeTel = $("#homeTel").val();
+			if(document.detailForm.delivName.value == ""){
+				alert("이름입력!");
+				$("#delivName").focus();
+			}else if(document.detailForm.zipCode.value == ""){
+				alert("우편번호입력!");
+				$("#zipCode").focus();
+			}else if(document.detailForm.address.value == ""){
+				alert("주소입력!");
+				$("#address").focus();
+			}else if(document.detailForm.phone.value == "" && document.detailForm.homeTel.value == ""){
+				alert("폰,집전화 둘중하나 입력");
+			}else{
+				document.detailForm.submit();
+			}
+		}
+	</script>
 </body>
 </html>

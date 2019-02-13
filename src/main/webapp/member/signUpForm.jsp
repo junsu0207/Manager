@@ -27,7 +27,7 @@
 					<td>성  명 : <input type="text" name="name" id="name" placeholder="성명을 입력하세요">
 				</tr>
 				<tr>
-					<td colspan="1" align="center"><input type="button" value="Create" onclick="checkWrite()">
+					<td align="center"><input type="button" value="Create" onclick="checkWrite()">
 				</tr>
 			</table>
 	</form>

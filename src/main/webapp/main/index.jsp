@@ -12,6 +12,7 @@
 		<ul>
 			<li onclick="location.href='/Manager/emp/empList'">list</li>
 			<li onclick="location.href='/Manager/member/loginForm'">Sign in</li>
+			<li onclick="location.href='/Manager/member/detail?id=${id}'">detailUpdate</li>
 		</ul>
 	</div>
 </body>

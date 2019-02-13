@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import member.bean.MemberDTO;
+import member.bean.MemberDetailDTO;
 
 @Repository
 public class MemberDAO {
@@ -37,5 +38,9 @@ public class MemberDAO {
 	public int signUp(MemberDTO memberDTO) {
 		return sqlSession.insert("mybatis.member.insertUser", memberDTO);
 	}
-
+	
+	// 회원상세정보
+	public int detailUp(MemberDetailDTO memberDetailDTO) {
+		return sqlSession.insert("mybatis.member.insertDetailUser", memberDetailDTO);
+	}
 }

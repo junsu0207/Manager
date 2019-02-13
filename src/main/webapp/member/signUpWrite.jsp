@@ -9,8 +9,10 @@
 	<script type="text/javascript">
 		window.onload=function(){
 			if(${result} >  0){
-				location.href="/Manager/member/detail?"+${id};
+				alert("가입성공 상세화면이동");
+				location.href="/Manager/member/detail?id=${id}";
 			}else{
+				alert("가입실패");
 				location.href="/Manager/member/signUpFrom";
 			}
 		}

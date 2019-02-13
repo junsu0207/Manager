@@ -1,6 +1,7 @@
 package member.controller;
 
 import member.bean.MemberDTO;
+import member.bean.MemberDetailDTO;
 
 public interface MemberService {
 	
@@ -10,6 +11,8 @@ public interface MemberService {
 	public boolean isExistId(String id);
 	// 회원가입
 	public int userSignUp(MemberDTO memberDTO);
+	// 회원상세
+	public int detailUser(MemberDetailDTO memberDetailDTO);
 	
 	
 	

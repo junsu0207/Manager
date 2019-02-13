@@ -21,10 +21,10 @@
 	</insert>
 	
 	<!-- 회원정보디테일 저장 -->
-	<insert id="insertUser" parameterType="memberDTO">
+	<insert id="insertDetailUser" parameterType="memberDetailDTO">
 		INSERT INTO USERINFODETAIL VALUES 
-		(#{id},(select concat('U',lpad(substr(max(USERINFODETAILCD),2)+1,8,'0')) from USERINFODETAIL),
-		'#{relcd}' ,#{addrcd} ,#{addrname} ,#{mobileTelNo}, #{homeTelNo},#{insuser} ,#{insdate} ,#{useyn} ,#{delivName})
+		(  #{id},(select concat('U',lpad(substr(max(USERINFODETAILCD),2)+1,8,'0')) from USERINFODETAIL),
+		#{relcd} ,#{addrcd} ,#{addrname} ,#{mobileTelNo}, #{homeTelNo},#{insuser} ,sysdate ,#{useyn} ,#{delivName})
 	</insert>
   </mapper>
   

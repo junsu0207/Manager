@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import member.bean.MemberDTO;
+import member.bean.MemberDetailDTO;
 
 @Controller
 public class MemberController {
@@ -105,7 +106,46 @@ public class MemberController {
 	@RequestMapping(value="/member/detail")
 	public ModelAndView detail(HttpServletRequest request, ModelAndView modelAndView) {
 		System.err.println("디테일");
+		String id = request.getParameter("id");
+		System.out.println("id = "  +id);
 		modelAndView.setViewName("/member/detail.jsp");
+		modelAndView.addObject("id", id);
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="/member/detailWrite")
+	public ModelAndView detailWrite(HttpServletRequest request, ModelAndView modelAndView) {
+		System.out.println("디테일 입력확인");
+		String id = request.getParameter("id");
+		String relcd = request.getParameter("relation");
+		int addrcd = Integer.parseInt(request.getParameter("zipCode"));
+		String addrName = request.getParameter("address");
+		String phone = request.getParameter("phone");
+		String homeTel = request.getParameter("homeTel");
+		String insuser = "신규";
+		String useyn = request.getParameter("useyn");
+		String name = request.getParameter("delivName");
+		
+		System.out.println(name);
+		
+		MemberDetailDTO memberDetailDTO = new MemberDetailDTO();
+		memberDetailDTO.setId(id);
+		memberDetailDTO.setRelcd(relcd);
+		memberDetailDTO.setAddrcd(addrcd);
+		memberDetailDTO.setAddrname(addrName);
+		memberDetailDTO.setMobileTelNo(phone);
+		memberDetailDTO.setHomeTelNo(homeTel);
+		memberDetailDTO.setInsuser(insuser);
+		memberDetailDTO.setUseyn(useyn);
+		memberDetailDTO.setDelivName(name);
+		
+		System.out.println(memberDetailDTO.toString());
+		
+		int result = memberService.detailUser(memberDetailDTO);
+		System.out.println("result"+result);
+		modelAndView.addObject("result", result);
+		modelAndView.setViewName("/member/detailWrite.jsp");
+		
 		return modelAndView;
 	}
 	

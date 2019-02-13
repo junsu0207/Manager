@@ -4,9 +4,14 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title></title>
+<title>Insert title here</title>
 </head>
 <body>
-
+	<script type="text/javascript">
+		if(${result} > 0){
+			alert("상세정보저장");
+			location.href="/Manager/main/index";
+		}
+	</script>
 </body>
 </html>
