@@ -77,24 +77,31 @@
 			if(document.signUpForm.id.value == ""){
 				alert("id입력!");
 				$("#id").focus();
+				return false;
 			}else if(document.signUpForm.password.value == ""){
 				alert("password입력!");
 				$("#password").focus();
+				return false;
 			}else if(document.signUpForm.passwordCheck.value == ""){
 				alert("password확인입력!");
 				$("#passwordCheck").focus();
+				return false;
 			}else if(document.signUpForm.name.value == ""){
 				alert("성함입력!");
 				$("#name").focus();
+				return false;
 			}else if(pwdCk1 != pwdCk2){
 				alert("비밀번호가 같지 않음");
 				document.signUpForm.password.focus();
 				$("#password").focus();
+				return false;
 			}else if(pwdCk1.length < 5 || pwdCk1.length > 10){
 				alert("비밀번호 길이 확인");
 				$("#password").focus();
+				return false;
 			}else if(!temp){
 				alert("아이디 중복체크");
+				return false;
 			}else{
 				document.signUpForm.submit();
 			}

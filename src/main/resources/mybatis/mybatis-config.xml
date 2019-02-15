@@ -7,9 +7,11 @@
 		<typeAlias type="emp.bean.EmpDTO" alias="empDTO"/>
 		<typeAlias type="member.bean.MemberDTO" alias="memberDTO"/>
 		<typeAlias type="member.bean.MemberDetailDTO" alias="memberDetailDTO"/>
+		<typeAlias type="codeMng.bean.CodeMngDTO" alias="codeMngDTO"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="mybatis/Emp-Mapper.xml"/>
 		<mapper resource="mybatis/Member-Mapper.xml"/>
+		<mapper resource="mybatis/codeMng-Mapper.xml"/>
 	</mappers>
 </configuration>
