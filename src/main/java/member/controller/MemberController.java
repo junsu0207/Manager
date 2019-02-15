@@ -1,6 +1,8 @@
 package member.controller;
 
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -39,7 +41,7 @@ public class MemberController {
 		String id = request.getParameter("id");
 		String password = request.getParameter("password");
 		String name = memberService.loginMember(id, password);
-		
+		System.out.println("name="+name);
 		if(name != null) {
 			HttpSession session = request.getSession();
 			session.setAttribute("memberId", id);
@@ -52,13 +54,12 @@ public class MemberController {
 		return modelAndView;
 	}
 	
-//	@RequestMapping(value="/login/checkId")
+//	@RequestMapping(value="/member/checkId")
 //	@ResponseBody
-//	public ModelAndView checkUserId(HttpServletRequest request, ModelAndView modelAndView) {
+//	public ModelAndView checkId(HttpServletRequest request, ModelAndView modelAndView) {
 //		System.out.println("아이디체크");
 //		String id = request.getParameter("ID");
-//		System.out.println(id);
-//		boolean result = MemberService.isExistId(id);
+//		boolean result = memberService.isExistId(id);
 //		modelAndView.addObject("result",result);
 //		modelAndView.setViewName("jsonView");
 //		return modelAndView;
@@ -149,6 +150,24 @@ public class MemberController {
 		return modelAndView;
 	}
 	
+	@RequestMapping(value="/member/logout")
+	public ModelAndView logout(HttpServletRequest request, ModelAndView modelAndView) {
+		HttpSession session = request.getSession(false);
+		session.invalidate();
+		modelAndView.setViewName("../main/index.jsp");
+		return modelAndView;
+	}
+	
+	@RequestMapping(value="/member/detailUpdate")
+	public ModelAndView detailUpdate(HttpServletRequest request, ModelAndView modelAndView) {
+		String id = request.getParameter("id");
+		System.out.println("디테일 업데이트");
+		System.out.println("id="+id);
+		List<MemberDetailDTO> list = memberService.list(id);
+		modelAndView.addObject("list",list);
+		modelAndView.setViewName("/member/detailUpdate.jsp");
+		return modelAndView;
+	}
 	
 	
 	

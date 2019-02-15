@@ -1,5 +1,7 @@
 package member.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +33,11 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public int detailUser(MemberDetailDTO memberDetailDTO) {
 		return memberDAO.detailUp(memberDetailDTO);
+	}
+
+	@Override
+	public List<MemberDetailDTO> list(String id) {
+		return memberDAO.list(id);
 	}
 
 }

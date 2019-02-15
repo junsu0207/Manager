@@ -1,6 +1,7 @@
 package member.dao;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -42,5 +43,10 @@ public class MemberDAO {
 	// 회원상세정보
 	public int detailUp(MemberDetailDTO memberDetailDTO) {
 		return sqlSession.insert("mybatis.member.insertDetailUser", memberDetailDTO);
+	}
+	
+	// 회원상제정보 리스트
+	public List<MemberDetailDTO> list(String id){
+		return sqlSession.selectList("mybatis.member.detailList",id);
 	}
 }

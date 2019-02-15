@@ -1,5 +1,7 @@
 package member.controller;
 
+import java.util.List;
+
 import member.bean.MemberDTO;
 import member.bean.MemberDetailDTO;
 
@@ -13,7 +15,8 @@ public interface MemberService {
 	public int userSignUp(MemberDTO memberDTO);
 	// 회원상세
 	public int detailUser(MemberDetailDTO memberDetailDTO);
-	
+	// 회원상세리스트
+	public List<MemberDetailDTO> list(String id);
 	
 	
 }

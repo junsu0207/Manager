@@ -56,14 +56,15 @@
 							alert("서버가 응답하지 않음.\n다시 시도");
 						},
 						success : function(result){
-							if(result == false){
+						 	if(result == false){
 								alert("사용가능");
 								temp = true;
 							}else if(result == true){
 								alert("사용안됨");
 							}else{
 								alert("에러발생");
-							}
+							} 
+							JSON.stringify(result)
 						}
 					});
 				}
