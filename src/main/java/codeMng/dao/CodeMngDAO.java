@@ -13,7 +13,17 @@ public class CodeMngDAO {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
+	// codemng list
 	public List<CodeMngDTO> list(){
 		return sqlSession.selectList("mybatis.codeMng.codeMngList");
 	}
+	// codemng detail list
+	public List<CodeMngDTO> DetailList(String cdno){
+		return sqlSession.selectList("mybatis.codeMng.codeMngView", cdno);
+	}
+	// codemng update
+	public int codeMngUpdate(CodeMngDTO codeMngDTO) {
+		return sqlSession.update("mybatis.codeMng.codeUpdate", codeMngDTO);
+	}
 }
+

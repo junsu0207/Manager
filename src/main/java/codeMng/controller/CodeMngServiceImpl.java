@@ -19,4 +19,14 @@ public class CodeMngServiceImpl implements CodeMngService{
 		return codeMngDAO.list();
 	}
 
+	@Override
+	public List<CodeMngDTO> detailList(String cdno) {
+		return codeMngDAO.DetailList(cdno);
+	}
+
+	@Override
+	public int codeMngUpdate(CodeMngDTO codeMngDTO) {
+		return codeMngDAO.codeMngUpdate(codeMngDTO);
+	}
+
 }

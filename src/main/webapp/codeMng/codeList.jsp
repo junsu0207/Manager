@@ -20,7 +20,7 @@
 			</tr>
 			<c:forEach var="codeMngDTO" items="${list }">
 				<tr>
-					<td><a href="#" id="cdno">${codeMngDTO.cdno}</a></td>
+					<td><a href="javascript:" class="cdnoBtn" id="cdnoBtn">${codeMngDTO.cdno}</a></td>
 					<td>${codeMngDTO.cdlvl}</td>
 					<td>${codeMngDTO.upcd}</td>
 					<td>${codeMngDTO.cdname}</td>
@@ -30,38 +30,90 @@
 		</table>
 	</div>
 	<div id="dataResult">
-		<table border="1" align="center">
+		<table border="1" align="center">  
 			<tr>
 				<td style="text-align: center;">코드내용</td>   
 			</tr>   
 			<tr>
-				<td>코드번호 : <input type="text" id="cdno1"></td>
+				<td>코드번호 : <input type="text" class="resultCdno"></td>
 			</tr>
 			<tr>
-				<td>코드레벨 : <input type="text"></td>
+				<td>코드레벨 : <input type="text" class="resultCdlvl"></td>
 			</tr>
 			<tr>
-				<td>상위코드 : <input type="text"></td>
+				<td>상위코드 : <input type="text" class="resultUpcd"></td>
 			</tr>         
 			<tr>
-				<td>코드이름 : <input type="text"></td>
+				<td>코드이름 : <input type="text" class="resultCdname"></td>   
 			<tr>
-				<td>사용여부 : <input type="checkbox" checked="checked" value="Y">사용</td>
+				<td>사용여부 : <input type="checkbox" checked="checked" value="Y" class="resultUseyn">사용</td>
+			</tr>
+			<tr>
+				<td style="text-align: center;"><input type="button" value="추가">
+					<input type="button" value="수정" class="updateBtn">        
+					<input type="button" value="저장"></td>     
 			</tr>
 		</table>
 	</div>
 	
 	<script type="text/javascript">
 		$(document).ready(function(){
-			$(document).on("click","#cdno",function(){
-				dataView();
-			})
+			$(document).on("click",".updateBtn",function(){
+				codeUpdate();
+			});
+			$(document).on("click",".cdnoBtn",function(){
+				dataView();              
+			});
 		});
+	
 		function dataView(){
-
-			$("dataResult").scrollTop($("#dataResult")[0].scrollHeight);
-			alert("test");
+			$('html, body').scrollTop( $(document).height());
+			var ckcdno = $(".cdBtn").text();
+			var cdnoData = {"cdno":ckcdno};
+			alert("cdno  == "+ckcdno);
+			$.ajax({
+				type : "POST",
+				url : "/Manager/codeMng/codeDetail",
+				data : cdnoData,
+				dataType : "json",
+				error : function(error){
+					alert("서버가 응답하지 않음. \n다시시도");
+				},
+				success : function(data){
+					console.log(data.result);
+					var cdno = "";
+					var cdlvl = "";
+					var cdname = "";
+					var upcd = "";
+					$.each(data.result,function(key, value){
+						cdno += value.cdno;
+						cdlvl += value.cdlvl;
+						cdname += value.cdname;
+						upcd += value.upcd;
+					});
+					console.log(cdno);
+					console.log(cdlvl);
+					console.log(cdname);
+					console.log(upcd);
+					$(".resultCdno").val(cdno);
+					$(".resultCdlvl").val(cdlvl);
+					$(".resultCdname").val(cdname);
+					$(".resultUpcd").val(upcd);                          
+				}
+			});
+		}
+		
+		
+		
+		function codeUpdate(){
+			$(".resultCdno").attr('disabled','disabled');
+			var cdno = $(".resultCdno").val();
+			var cdlvl = $(".resultCdlvl").val();
+			var cdname = $(".resultCdname").val();
+			var upcd = $(".resultUpcd").val();
+			console.log(cdno+"/"+cdlvl+"/"+cdname+"/"+upcd);
 		}
 	</script>
-</body>
+	
+	</body>
 </html>

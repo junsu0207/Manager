@@ -27,7 +27,7 @@
 		#{relcd} ,#{addrcd} ,#{addrname} ,#{mobileTelNo}, #{homeTelNo},#{insuser} ,sysdate ,#{useyn} ,#{delivName})
 	</insert>
 	
-	<!-- 회원디테일정보 수정 -->
+	<!-- 회원디테일정보 -->
 	<select id="detailList" parameterType="String" resultType="memberDetailDTO">
 		SELECT * FROM USERINFODETAIL WHERE ID = #{id}
 	</select>
