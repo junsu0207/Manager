@@ -20,7 +20,7 @@
 			</tr>
 			<c:forEach var="codeMngDTO" items="${list }">
 				<tr>
-					<td><a href="javascript:" class="cdnoBtn" id="cdnoBtn">${codeMngDTO.cdno}</a></td>
+					<td><a href="javascript:" class="cdnoBtn" id="cdnoBtn" data="${codeMngDTO.cdno}">${codeMngDTO.cdno}</a></td>
 					<td>${codeMngDTO.cdlvl}</td>
 					<td>${codeMngDTO.upcd}</td>
 					<td>${codeMngDTO.cdname}</td>
@@ -62,13 +62,15 @@
 				codeUpdate();
 			});
 			$(document).on("click",".cdnoBtn",function(){
-				dataView();              
+				var data = $(this).attr("data");
+				console.log(data);
+				dataView(data);              
 			});
 		});
 	
-		function dataView(){
+		function dataView(ckcdno){
 			$('html, body').scrollTop( $(document).height());
-			var ckcdno = $(".cdBtn").text();
+			/* var ckcdno = $(".cdBtn").text(); */
 			var cdnoData = {"cdno":ckcdno};
 			alert("cdno  == "+ckcdno);
 			$.ajax({
