@@ -33,7 +33,7 @@
 	<!-- update  -->
 	<update id="codeUpdate" parameterType="codeMngDTO">
 	UPDATE CODEMNG SET
-	CDLVL=#{cdlvl},UPCD=#{upcd},CDNAME=#{cdname},INSUSER=#{insuser},INSDATE=SYSDATE,USEYN=#{useyn}
-	WHERE CDNO = #{cdno};
+	CDLVL=#{cdlvl},UPCD=#{upcd},CDNAME=#{cdname},INSUSER='관리자',INSDATE=SYSDATE,USEYN=#{useyn}
+	WHERE CDNO = #{cdno}
 	</update>
 </mapper>

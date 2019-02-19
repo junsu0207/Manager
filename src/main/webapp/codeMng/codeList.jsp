@@ -20,7 +20,7 @@
 			</tr>
 			<c:forEach var="codeMngDTO" items="${list }">
 				<tr>
-					<td><a href="javascript:" class="cdnoBtn" id="cdnoBtn" data="${codeMngDTO.cdno}">${codeMngDTO.cdno}</a></td>
+					<td><a href="javascript:" class="cdnoBtn" id="cdnoBtn_${codeMngDTO.cdno }">${codeMngDTO.cdno}</a></td>
 					<td>${codeMngDTO.cdlvl}</td>
 					<td>${codeMngDTO.upcd}</td>
 					<td>${codeMngDTO.cdname}</td>
@@ -30,46 +30,67 @@
 		</table>
 	</div>
 	<div id="dataResult">
-		<table border="1" align="center">  
-			<tr>
-				<td style="text-align: center;">코드내용</td>   
-			</tr>   
-			<tr>
-				<td>코드번호 : <input type="text" class="resultCdno"></td>
-			</tr>
-			<tr>
-				<td>코드레벨 : <input type="text" class="resultCdlvl"></td>
-			</tr>
-			<tr>
-				<td>상위코드 : <input type="text" class="resultUpcd"></td>
-			</tr>         
-			<tr>
-				<td>코드이름 : <input type="text" class="resultCdname"></td>   
-			<tr>
-				<td>사용여부 : <input type="checkbox" checked="checked" value="Y" class="resultUseyn">사용</td>
-			</tr>
-			<tr>
-				<td style="text-align: center;"><input type="button" value="추가">
-					<input type="button" value="수정" class="updateBtn">        
-					<input type="button" value="저장"></td>     
-			</tr>
-		</table>
+		<form action="" method="post" name="codeMngWrite" id="codeMngWrite">
+			<table id="codeTable" border="1" align="center">
+				<tr>
+					<td style="text-align: center;">코드내용</td>
+				</tr>
+				<tr>
+					<td>코드번호 : <input type="text" class="resultCdno" id="resultCdno"></td>
+				</tr>
+				<tr>
+					<td>코드레벨 : <input type="text" class="resultCdlvl" id="resultCdlvl"></td>
+				</tr>
+				<tr>
+					<td>상위코드 : <input type="text" class="resultUpcd" id="resultUpcd"></td>
+				</tr>
+				<tr>
+					<td>코드이름 : <input type="text" class="resultCdname" id="resultCdname"></td>
+				<tr>
+					<td>사용여부 : <input type="checkbox" checked="checked" value="Y"
+						class="resultUseyn" id="resultUseyn">사용
+					</td>
+				</tr>
+				<tr>
+					<td style="text-align: center;">
+					<input type="button" value="추가" class="inputBtn"> 
+					<input type="button" value="수정" class="updateBtn">
+					<input type="button" value="저장" class="submitBtn">
+					</td>
+				</tr>
+			</table>
+			<input type="hidden" class="checkData">
+		</form>
 	</div>
 	
 	<script type="text/javascript">
+	var bool;
 		$(document).ready(function(){
 			$(document).on("click",".updateBtn",function(){
+				
 				codeUpdate();
 			});
 			$(document).on("click",".cdnoBtn",function(){
-				var data = $(this).attr("data");
-				console.log(data);
+				
+				$('html, body').scrollTop( $(document).height());
+				/* var code = $(this).attr("id");
+				var code2 = code.lastIndexOf("_");
+				var codeReal = code.substring(code2+1); */
+				var index = $(".cdnoBtn").index(this);
+				var data = $("a:eq("+index+")").html();
+				console.log(data);       
 				dataView(data);              
 			});
+			$(document).on("click",".inputBtn",function(){
+				codeInput();
+			});
+			$(document).on("click",".submitBtn",function(){
+				saveData();
+			});
 		});
-	
+		
 		function dataView(ckcdno){
-			$('html, body').scrollTop( $(document).height());
+			
 			/* var ckcdno = $(".cdBtn").text(); */
 			var cdnoData = {"cdno":ckcdno};
 			alert("cdno  == "+ckcdno);
@@ -105,15 +126,53 @@
 			});
 		}
 		
-		
+		function codeInput(){
+			bool = true;
+			console.log("추가버튼!");
+			$("#codeTable").find("input[type='text']").val('');
+			$(".resultCdno").removeAttr('disabled','disabled');
+			/*$('.resultCdno').val('');
+			$('.resultCdlvl').val('');
+			$('.resultCdname').val('');
+			$('.resultUpcd').val(''); */
+		}
 		
 		function codeUpdate(){
-			$(".resultCdno").attr('disabled','disabled');
+			bool = false;
 			var cdno = $(".resultCdno").val();
 			var cdlvl = $(".resultCdlvl").val();
 			var cdname = $(".resultCdname").val();
 			var upcd = $(".resultUpcd").val();
 			console.log(cdno+"/"+cdlvl+"/"+cdname+"/"+upcd);
+			if(cdno == ""){
+				alert("수정할 코드 선택!");
+			}else{
+				$(".resultCdno").attr('disabled','disabled');    
+			}
+		}
+		
+		function saveData(){
+			var form;
+			console.log(bool);
+			if(bool == false){
+				form = $("#codeMngWrite").serialize();
+				$.ajax({
+					type : "POST",
+					url : "/Manager/codeMng/codeUpdate",
+					dataType : "json",
+					data : form,
+					error : function(error){
+						console.log("서버 응답 없음");
+					},
+					success : function(data){
+						alert("testMassage");
+					}
+				});
+			}else if(bool == true){
+				
+			}else{
+				document.codeMngWrite.submit();
+			}
 		}
 	</script>
 	

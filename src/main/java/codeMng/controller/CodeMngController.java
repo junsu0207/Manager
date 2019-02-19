@@ -67,14 +67,22 @@ public class CodeMngController {
 		String cdno = request.getParameter("cdno");
 		List<CodeMngDTO> result = codeMngService.detailList(cdno);
 		map.put("result",result);
+		
 		return json(map);
 	}
 	
 	@RequestMapping(value="/codeMng/codeUpdate", produces="application/text; charset=utf8")
 	@ResponseBody
-	public String update(HttpServletRequest request) {
+	public String update(HttpServletRequest request, CodeMngDTO codeMngDTO) {
 		Map<String,Object> map = new HashMap<String,Object>();
-		
+		String cdno = request.getParameter("resultCdno");
+		System.out.println("cdno ==== "+cdno);
+		int count = codeMngService.codeMngUpdate(codeMngDTO);
+		String msg = "";
+		if(count > 0) {
+			map.put("result", true);
+			map.put("msg", "수정완!");
+		}
 		return json(map);
 	}
 	
