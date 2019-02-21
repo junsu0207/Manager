@@ -24,14 +24,14 @@ public class MemberController {
 	@RequestMapping(value="/member/loginForm")
 	public ModelAndView login(HttpServletRequest request, ModelAndView modelAndView) {
 		System.out.println("로그인폼 ");
-		modelAndView.setViewName("/member/loginForm.jsp");
+		modelAndView.setViewName("/main/index.jsp?req=loginForm");
 		return modelAndView;
 	}
 	
 	@RequestMapping(value="/member/signUpForm")
 	public ModelAndView signUpForm(HttpServletRequest request, ModelAndView modelAndView) {
 		System.err.println("회원가입폼");
-		modelAndView.setViewName("/member/signUpForm.jsp");
+		modelAndView.setViewName("/main/index.jsp?req=signUpForm");
 		return modelAndView;
 	}
 	
@@ -46,7 +46,7 @@ public class MemberController {
 			HttpSession session = request.getSession();
 			session.setAttribute("memberId", id);
 			session.setAttribute("memberName", name);
-			modelAndView.setViewName("../main/index.jsp");
+			modelAndView.setViewName("redirect:../main/index.jsp");
 		}else {
 			modelAndView.setViewName("/member/loginForm.jsp");
 		}
@@ -109,7 +109,7 @@ public class MemberController {
 		System.err.println("디테일");
 		String id = request.getParameter("id");
 		System.out.println("id = "  +id);
-		modelAndView.setViewName("/member/detail.jsp");
+		modelAndView.setViewName("/main/index.jsp?req=detail");
 		modelAndView.addObject("id", id);
 		return modelAndView;
 	}
@@ -150,14 +150,6 @@ public class MemberController {
 		return modelAndView;
 	}
 	
-	@RequestMapping(value="/member/logout")
-	public ModelAndView logout(HttpServletRequest request, ModelAndView modelAndView) {
-		HttpSession session = request.getSession(false);
-		session.invalidate();
-		modelAndView.setViewName("../main/index.jsp");
-		return modelAndView;
-	}
-	
 	@RequestMapping(value="/member/detailUpdate")
 	public ModelAndView detailUpdate(HttpServletRequest request, ModelAndView modelAndView) {
 		String id = request.getParameter("id");
@@ -165,7 +157,7 @@ public class MemberController {
 		System.out.println("id="+id);
 		List<MemberDetailDTO> list = memberService.list(id);
 		modelAndView.addObject("list",list);
-		modelAndView.setViewName("/member/detailUpdate.jsp");
+		modelAndView.setViewName("/main/index.jsp?req=detailUpdate");
 		return modelAndView;
 	}
 	

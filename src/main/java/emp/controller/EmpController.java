@@ -17,20 +17,13 @@ public class EmpController {
 	@Autowired
 	private EmpServiceImpl empService;
 	
-	@RequestMapping(value="/main/index")
-	public ModelAndView index(ModelAndView modelAndView) {
-		System.out.println("메인화면 시작111111 ");
-		modelAndView.setViewName("redirect:/main/index.jsp");
-		return modelAndView;
-	}
-	
 	@RequestMapping(value="/emp/empList")
 	public ModelAndView empList(HttpServletRequest requset, ModelAndView modelAndView) {
 		System.out.println("emp리스트");
 		List<EmpDTO> list = empService.list();
 		
 		modelAndView.addObject("list", list);
-		modelAndView.setViewName("/emp/empList.jsp");
+		modelAndView.setViewName("/main/index.jsp?req=empList");
 		return modelAndView;
 	}
 }

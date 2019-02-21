@@ -38,7 +38,7 @@ public class CodeMngController {
 		List<CodeMngDTO> list = codeMngService.list();
 		
 		modelAndView.addObject("list",list);
-		modelAndView.setViewName("/codeMng/codeList.jsp");
+		modelAndView.setViewName("/main/index.jsp?req=list");
 		return modelAndView;
 	}
 	
@@ -75,13 +75,31 @@ public class CodeMngController {
 	@ResponseBody
 	public String update(HttpServletRequest request, CodeMngDTO codeMngDTO) {
 		Map<String,Object> map = new HashMap<String,Object>();
-		String cdno = request.getParameter("resultCdno");
-		System.out.println("cdno ==== "+cdno);
 		int count = codeMngService.codeMngUpdate(codeMngDTO);
 		String msg = "";
 		if(count > 0) {
+			msg = "업데이트 성공";
 			map.put("result", true);
-			map.put("msg", "수정완!");
+			map.put("msg", msg);
+		}else {
+			map.put("result", false);
+		}
+		return json(map);
+	}
+	
+	@RequestMapping(value="/codeMng/codeInput", produces="application/text; charset=utf8")
+	@ResponseBody
+	public String insert(HttpServletRequest request, CodeMngDTO codeMngDTO) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		int count = codeMngService.codeMngInsert(codeMngDTO);
+		System.out.println("count === " + count);
+		String msg = "";
+		if(count > 0) {
+			msg = "입력 성공";
+			map.put("result", true);
+			map.put("mag", msg);
+		}else {
+			map.put("result", false);
 		}
 		return json(map);
 	}

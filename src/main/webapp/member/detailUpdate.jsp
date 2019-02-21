@@ -10,9 +10,10 @@
 </head>
 <body>
 	<form action="/Manager/member/detailWrite" method="post" name="detailForm">
-		<c:forEach var="memberDetailDTO" items="${list }">
+		
 			<input type="hidden" name="id" id="id" value="${id }">
 			<table align="center">
+			<c:forEach var="memberDetailDTO" items="${list }">
 				<tr>
 					<td colspan="2" align="center"> 상세정보
 				</tr>
@@ -53,12 +54,13 @@
 					<td colspan="2" align="center"><input type="button" value="update" onclick="checkWrite()">
 													<input type="button" value="cancel" onclick="location.href='/Manager/main/index'">
 				</tr>
+				</c:forEach>
 			</table>
-		</c:forEach>
+		
 	</form>
 	
 	<script type="text/javascript">
-	alert(${id}});
+	alert(${id});
 		function checkWrite(){
 			var phone = $("#phone").val();
 			var homeTel = $("#homeTel").val();

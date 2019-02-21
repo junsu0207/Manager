@@ -25,5 +25,9 @@ public class CodeMngDAO {
 	public int codeMngUpdate(CodeMngDTO codeMngDTO) {
 		return sqlSession.update("mybatis.codeMng.codeUpdate", codeMngDTO);
 	}
+	// codemng insert
+	public int codeMngInsert(CodeMngDTO codeMngDTO) {
+		return sqlSession.insert("mybatis.codeMng.codeInsert", codeMngDTO);
+	}
 }
 

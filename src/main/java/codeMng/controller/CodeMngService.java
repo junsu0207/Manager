@@ -13,4 +13,7 @@ public interface CodeMngService {
 	
 	// 수정
 	public int codeMngUpdate(CodeMngDTO codeMngDTO);
+	
+	// 입력
+	public int codeMngInsert(CodeMngDTO codeMgnDTO);
 }

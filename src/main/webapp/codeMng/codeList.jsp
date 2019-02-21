@@ -36,19 +36,19 @@
 					<td style="text-align: center;">코드내용</td>
 				</tr>
 				<tr>
-					<td>코드번호 : <input type="text" class="resultCdno" id="resultCdno"></td>
+					<td id="temp">코드번호 : <input type="text" class="resultCdno" id="resultCdno" name="cdno"></td>
 				</tr>
 				<tr>
-					<td>코드레벨 : <input type="text" class="resultCdlvl" id="resultCdlvl"></td>
+					<td>코드레벨 : <input type="text" class="resultCdlvl" id="resultCdlvl" name="cdlvl"></td>
 				</tr>
 				<tr>
-					<td>상위코드 : <input type="text" class="resultUpcd" id="resultUpcd"></td>
+					<td>상위코드 : <input type="text" class="resultUpcd" id="resultUpcd" name="upcd"></td>
 				</tr>
 				<tr>
-					<td>코드이름 : <input type="text" class="resultCdname" id="resultCdname"></td>
+					<td>코드이름 : <input type="text" class="resultCdname" id="resultCdname" name="cdname"></td>
 				<tr>
 					<td>사용여부 : <input type="checkbox" checked="checked" value="Y"
-						class="resultUseyn" id="resultUseyn">사용
+						class="resultUseyn" id="resultUseyn" name="useyn">사용
 					</td>
 				</tr>
 				<tr>
@@ -67,7 +67,6 @@
 	var bool;
 		$(document).ready(function(){
 			$(document).on("click",".updateBtn",function(){
-				
 				codeUpdate();
 			});
 			$(document).on("click",".cdnoBtn",function(){
@@ -81,8 +80,8 @@
 				console.log(data);       
 				dataView(data);              
 			});
-			$(document).on("click",".inputBtn",function(){
-				codeInput();
+			$(document).on("click",".inputBtn",function(){ 
+				codeInput();            
 			});
 			$(document).on("click",".submitBtn",function(){
 				saveData();
@@ -129,8 +128,9 @@
 		function codeInput(){
 			bool = true;
 			console.log("추가버튼!");
+			//$(".resultCdno").text("코드자동생성");
+			$(".resultCdno").attr('disabled','disabled');    
 			$("#codeTable").find("input[type='text']").val('');
-			$(".resultCdno").removeAttr('disabled','disabled');
 			/*$('.resultCdno').val('');
 			$('.resultCdlvl').val('');
 			$('.resultCdname').val('');
@@ -152,10 +152,12 @@
 		}
 		
 		function saveData(){
-			var form;
+			var form = "";
 			console.log(bool);
 			if(bool == false){
+				$(".resultCdno").attr('disabled',false);
 				form = $("#codeMngWrite").serialize();
+				console.log("updateForm == "+form);
 				$.ajax({
 					type : "POST",
 					url : "/Manager/codeMng/codeUpdate",
@@ -163,15 +165,34 @@
 					data : form,
 					error : function(error){
 						console.log("서버 응답 없음");
+						alert("db접근실패");
 					},
 					success : function(data){
-						alert("testMassage");
+						alert(data.msg);
+						console.log(data.result);
 					}
 				});
+				location.reload();
 			}else if(bool == true){
-				
+				form = $("#codeMngWrite").serialize(); 
+				console.log("inputFrom === " +form);
+				$.ajax({
+					type : "post",
+					url : "/Manager/codeMng/codeInput",
+					dataType : "json",
+					data : form,
+					error : function(error){
+						console.log("서버 응답 없음");
+						alert("db접근실패");
+					},
+					success : function(data){
+						alert(data.msg);
+						console.log(data.result);
+					}
+				});
+				location.reload();
 			}else{
-				document.codeMngWrite.submit();
+				alert("추가, 수정 선택 후 저장");
 			}
 		}
 	</script>

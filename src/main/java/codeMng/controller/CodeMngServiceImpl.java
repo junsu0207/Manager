@@ -29,4 +29,9 @@ public class CodeMngServiceImpl implements CodeMngService{
 		return codeMngDAO.codeMngUpdate(codeMngDTO);
 	}
 
+	@Override
+	public int codeMngInsert(CodeMngDTO codeMgnDTO) {
+		return codeMngDAO.codeMngInsert(codeMgnDTO);
+	}
+
 }
