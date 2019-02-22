@@ -63,8 +63,7 @@
 								alert("사용안됨");
 							}else{
 								alert("에러발생");
-							} 
-							JSON.stringify(result)
+							}
 						}
 					});
 				}

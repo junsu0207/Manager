@@ -46,6 +46,6 @@
 	<insert id="codeInsert" parameterType="codeMngDTO">
 	INSERT INTO CODEMNG VALUES ((SELECT
 	concat('C',lpad(substr(max(CDNO),2)+1,4,'0'))FROM CODEMNG) ,#{cdlvl}, #{upcd}
-	,#{cdname} ,'관리자' ,SYSDATE ,#{useyn})
+	,#{cdname} ,#{insuser} ,SYSDATE ,#{useyn})
 	</insert>
 </mapper>

@@ -97,7 +97,7 @@ public class CodeMngController {
 		if(count > 0) {
 			msg = "입력 성공";
 			map.put("result", true);
-			map.put("mag", msg);
+			map.put("msg", msg);
 		}else {
 			map.put("result", false);
 		}

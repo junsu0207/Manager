@@ -12,6 +12,7 @@
     <context:component-scan base-package="member.*"/>
     <context:component-scan base-package="codeMng.*"/>
     <context:component-scan base-package="main.*"/>
+    <context:component-scan base-package="item.*"/>
 	
 	<context:property-placeholder location="classpath:spring/db.properties"/>
 	<bean id="dataSource"

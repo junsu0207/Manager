@@ -52,6 +52,9 @@
 <body>
 	<div id="header">
 		<h1>MANAGER MAIN</h1>
+		<c:if test="${sessionScope.memberName != null}">
+			<p>${sessionScope.memberName}님</p>          
+		</c:if>
 	</div>
 
 	<div class="nav">
@@ -64,6 +67,7 @@
 					<li onclick="location.href='/Manager/emp/empList'">empList</li>
 					<li	onclick="location.href='/Manager/member/detailUpdate?id=${memberId}'">detailUpdate</li>
 					<li onclick="location.href='/Manager/codeMng/codeList'">codeList</li>
+					<li onclick="location.href='/Manager/item/itemList'">itemList</li>
 					<li onclick="location.href='/Manager/member/logout'">logout</li>
 				</c:when>
 			</c:choose>
@@ -94,6 +98,10 @@
 		
 		<c:if test="${param.req == 'list' }">
 			<jsp:include page = "../codeMng/codeList.jsp"/>
+		</c:if>
+		
+		<c:if test="${param.req == 'itemList' }">
+			<jsp:include page="../item/itemList.jsp"/>
 		</c:if>
 	</div>
 

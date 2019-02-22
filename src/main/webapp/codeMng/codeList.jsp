@@ -7,6 +7,14 @@
 <meta charset="UTF-8">
 <title>CodeMngList</title>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<!-- 합쳐지고 최소화된 최신 CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+<!-- 부가적인 테마 -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 </head>
 <body>
 	<div>
@@ -47,8 +55,8 @@
 				<tr>
 					<td>코드이름 : <input type="text" class="resultCdname" id="resultCdname" name="cdname"></td>
 				<tr>
-					<td>사용여부 : <input type="checkbox" checked="checked" value="Y"
-						class="resultUseyn" id="resultUseyn" name="useyn">사용
+					<td>사용여부 : <input type="checkbox" checked="checked"
+						class="resultUseyn" id="resultUseyn" name="resultUseyn">사용
 					</td>
 				</tr>
 				<tr>
@@ -59,12 +67,14 @@
 					</td>
 				</tr>
 			</table>
-			<input type="hidden" class="checkData">
+			<input type="hidden" name="insuser" value="${sessionScope.memberName }">
+			<input type="hidden" id="hTemp" name="useyn">
 		</form>
 	</div>
 	
 	<script type="text/javascript">
-	var bool;
+		
+		var bool;
 		$(document).ready(function(){
 			$(document).on("click",".updateBtn",function(){
 				codeUpdate();
@@ -76,6 +86,7 @@
 				var code2 = code.lastIndexOf("_");
 				var codeReal = code.substring(code2+1); */
 				var index = $(".cdnoBtn").index(this);
+				console.log("index === " + index);
 				var data = $("a:eq("+index+")").html();
 				console.log(data);       
 				dataView(data);              
@@ -84,12 +95,12 @@
 				codeInput();            
 			});
 			$(document).on("click",".submitBtn",function(){
+				console.log($('#resultUseyn').val());
 				saveData();
 			});
 		});
 		
 		function dataView(ckcdno){
-			
 			/* var ckcdno = $(".cdBtn").text(); */
 			var cdnoData = {"cdno":ckcdno};
 			alert("cdno  == "+ckcdno);
@@ -120,7 +131,8 @@
 					$(".resultCdno").val(cdno);
 					$(".resultCdlvl").val(cdlvl);
 					$(".resultCdname").val(cdname);
-					$(".resultUpcd").val(upcd);                          
+					$(".resultUpcd").val(upcd);
+					
 				}
 			});
 		}
@@ -143,7 +155,8 @@
 			var cdlvl = $(".resultCdlvl").val();
 			var cdname = $(".resultCdname").val();
 			var upcd = $(".resultUpcd").val();
-			console.log(cdno+"/"+cdlvl+"/"+cdname+"/"+upcd);
+			var useyn = $(".resultUseyn").val();
+			console.log(cdno+"/"+cdlvl+"/"+cdname+"/"+upcd+"/"+useyn);
 			if(cdno == ""){
 				alert("수정할 코드 선택!");
 			}else{
@@ -152,6 +165,11 @@
 		}
 		
 		function saveData(){
+			if(!$('[name=resultUseyn]').prop('checked')){
+				$('#hTemp').val('N');
+			}else{
+				$('#hTemp').val('Y');
+			}
 			var form = "";
 			console.log(bool);
 			if(bool == false){
@@ -170,9 +188,9 @@
 					success : function(data){
 						alert(data.msg);
 						console.log(data.result);
+						location.reload();
 					}
 				});
-				location.reload();
 			}else if(bool == true){
 				form = $("#codeMngWrite").serialize(); 
 				console.log("inputFrom === " +form);
@@ -188,9 +206,9 @@
 					success : function(data){
 						alert(data.msg);
 						console.log(data.result);
+						location.reload();
 					}
 				});
-				location.reload();
 			}else{
 				alert("추가, 수정 선택 후 저장");
 			}
