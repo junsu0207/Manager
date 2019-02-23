@@ -12,8 +12,9 @@
 		<tr>
 			<td colspan="9">    
 				카테고리 : <select id="itemCategory" name="category">
-							<option>전자제품</option>
-							<option>의류</option>		
+							<option>========</option>
+							<option value="C0001">전자제품</option>
+							<option value="C0002">의류</option>		
 						</select>
 				1차분류 : <select id="item1">
 						</select>
@@ -31,7 +32,7 @@
 			<td>재고여부</td>
 			<td>사용여부</td>
 		</tr>
-		<tbody></tbody>
+		<tbody> </tbody>
 	</table>
 	
 	<script type="text/javascript">
@@ -39,13 +40,45 @@
 			$(document).on("click", ".search", function(){
 				searchItem();
 			});
+			$(document).on("click", "#itemCategory", function(){
+				searchCategory();
+			});
+			$(document).on("click", "#cdno", function(){
+				itemDetail();
+			});
 		});
 		
+		function searchCategory(){
+			console.log($("#itemCategory option:selected").val());
+			var temp = $("#itemCategory option:selected").val();
+			if(temp == "C0001"){
+				$("#item1").append("<option value='1'>notebook</option>");
+			}else{
+				$("#item1").append("<option value='2'>coat</option>");
+			}
+			
+		}
 		function searchItem(){
 			var time = new Date().toLocaleTimeString();
-			$('#itemTable > tbody:first').append('<tr><td> test </td></tr>');
+			console.log(time);
+			$('#itemTable > tbody:first').append    
+			('<tr>'+
+			'<td><a href=javascript: id=cdno class=cdno> test1 </a></td>'+
+			'<td> test2 </td>'+
+			'<td> test3 </td>'+
+			'<td> test4 </td>'+
+			'<td> test5 </td>'+
+			'<td> test6 </td>'+
+			'<td> test7 </td>'+
+			'<td> test8 </td>'+
+			'<td> test9 </td>'+
+			'</tr>');         
 		}
-	
+		function itemDetail(){
+			var index = $("#cdno").index(this);
+			var data = $("a:eq("+index+")").html();
+			console.log(index);
+		}
 	</script>
 </body>
 </html>
