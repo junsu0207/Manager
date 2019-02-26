@@ -32,10 +32,9 @@
 				<tr>
 					<td> 관계 :
 					<td><select id="relation" name="relation" style="width:100%;" >
-						<option value="C0021">본인</option>
-						<option value="C0022">부모님</option>
-						<option value="C0023">동생</option>
-						<option value="C0024">지인</option>
+						<c:forEach var="code" items="${codeList }">
+							<option value="${code.cdno }">${code.cdname}</option>
+						</c:forEach>
 					</select>
 				</tr>
 				<tr>

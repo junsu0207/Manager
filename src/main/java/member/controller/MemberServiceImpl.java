@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import codeMng.bean.CodeMngDTO;
 import member.bean.MemberDTO;
 import member.bean.MemberDetailDTO;
 import member.dao.MemberDAO;
@@ -38,6 +39,11 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public List<MemberDetailDTO> list(String id) {
 		return memberDAO.list(id);
+	}
+
+	@Override
+	public List<CodeMngDTO> codeSelect() {
+		return memberDAO.codelist();
 	}
 
 }

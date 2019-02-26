@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import codeMng.bean.CodeMngDTO;
 import member.bean.MemberDTO;
 import member.bean.MemberDetailDTO;
 
@@ -48,7 +49,7 @@ public class MemberController {
 			session.setAttribute("memberName", name);
 			modelAndView.setViewName("redirect:../main/index.jsp");
 		}else {
-			modelAndView.setViewName("/member/loginForm.jsp");
+			modelAndView.setViewName("/main/index.jsp?req=loginForm");
 		}
 		
 		return modelAndView;
@@ -109,7 +110,9 @@ public class MemberController {
 		System.err.println("디테일");
 		String id = request.getParameter("id");
 		System.out.println("id = "  +id);
+		List<CodeMngDTO> codeList = memberService.codeSelect();
 		modelAndView.setViewName("/main/index.jsp?req=detail");
+		modelAndView.addObject("codeList", codeList);
 		modelAndView.addObject("id", id);
 		return modelAndView;
 	}
@@ -156,7 +159,9 @@ public class MemberController {
 		System.out.println("디테일 업데이트");
 		System.out.println("id="+id);
 		List<MemberDetailDTO> list = memberService.list(id);
+		List<CodeMngDTO> codeList = memberService.codeSelect();
 		modelAndView.addObject("list",list);
+		modelAndView.addObject("codeList",codeList);
 		modelAndView.setViewName("/main/index.jsp?req=detailUpdate");
 		return modelAndView;
 	}

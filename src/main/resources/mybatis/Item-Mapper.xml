@@ -4,6 +4,38 @@
 
   
   <mapper namespace="mybatis.item">
-  
+  	<select id="itemList" parameterType="String" resultType="itemDTO">
+	  	SELECT 
+		ITEMCD, 
+		ITEMNAME, 
+		MADENMCD,
+		(SELECT CDNAME FROM CODEMNG WHERE CDNO = MADENMCD ) as MADENAME,
+		ITEMUNITCD, 
+	    (SELECT CDNAME FROM CODEMNG WHERE CDNO = ITEMUNITCD) as UNITCDNAME,
+		STOCKAMT, 
+		STOCKYN, 
+		INSUSER, 
+		INSDATE, 
+		USEYN, 
+		ITEMCLSCD
+		FROM ITEMLIST WHERE ITEMCLSCD = #{itemclscd}
+  	</select>
+  	
+  	<select id="itemDetailView" parameterType="String" resultType="itemDTO">
+  		SELECT 
+		ITEMCD, 
+		ITEMNAME, 
+		MADENMCD,
+		(SELECT CDNAME FROM CODEMNG WHERE CDNO = MADENMCD ) as MADENAME,
+		ITEMUNITCD, 
+	    (SELECT CDNAME FROM CODEMNG WHERE CDNO = ITEMUNITCD) as UNITCDNAME,
+		STOCKAMT, 
+		STOCKYN, 
+		INSUSER, 
+		INSDATE, 
+		USEYN, 
+		ITEMCLSCD
+	 	FROM ITEMLIST WHERE ITEMCD = #{itemcd}
+  	</select>
   </mapper>
   

@@ -32,20 +32,35 @@
 	
 	<!-- update  -->
 	<update id="codeUpdate" parameterType="codeMngDTO">
-	UPDATE CODEMNG SET
-	CDLVL = #{cdlvl},
-	UPCD = #{upcd},
-	CDNAME = #{cdname},
-	INSUSER = '관리자',
-	INSDATE = SYSDATE,
-	USEYN = #{useyn}
-	WHERE CDNO = #{cdno}
+		UPDATE CODEMNG SET
+		CDLVL = #{cdlvl},
+		UPCD = #{upcd},
+		CDNAME = #{cdname},
+		INSUSER = '관리자',
+		INSDATE = SYSDATE,
+		USEYN = #{useyn}
+		WHERE CDNO = #{cdno}
 	</update>
 	
 	<!-- input -->
 	<insert id="codeInsert" parameterType="codeMngDTO">
-	INSERT INTO CODEMNG VALUES ((SELECT
-	concat('C',lpad(substr(max(CDNO),2)+1,4,'0'))FROM CODEMNG) ,#{cdlvl}, #{upcd}
-	,#{cdname} ,#{insuser} ,SYSDATE ,#{useyn})
+		INSERT INTO CODEMNG VALUES ((SELECT
+		concat('C',lpad(substr(max(CDNO),2)+1,4,'0'))FROM CODEMNG) ,#{cdlvl}, #{upcd}
+		,#{cdname} ,#{insuser} ,SYSDATE ,#{useyn})
 	</insert>
+	
+	<!-- 상세정보 코드 -->
+	<select id="detailCodeList" resultType="codeMngDTO">
+		SELECT CDNO , CDNAME FROM CODEMNG WHERE UPCD = 'C0020' ORDER BY CDNO
+	</select>
+	<!-- category 대분류 -->
+	<select id="itemCodeList" resultType="codeMngDTO">
+		SELECT CDNO , CDNAME FROM CODEMNG WHERE UPCD = 'C0070'
+	</select>
+	<!-- 1차분류 코드 -->
+	<select id="firstCodeList" parameterType="String" resultType="codeMngDTO">
+		SELECT CDNO , CDNAME FROM CODEMNG WHERE UPCD = #{upcd} ORDER BY CDNAME
+	</select>
+	
+	
 </mapper>

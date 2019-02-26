@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import codeMng.bean.CodeMngDTO;
 import member.bean.MemberDTO;
 import member.bean.MemberDetailDTO;
 
@@ -48,5 +49,10 @@ public class MemberDAO {
 	// 회원상제정보 리스트
 	public List<MemberDetailDTO> list(String id){
 		return sqlSession.selectList("mybatis.member.detailList",id);
+	}
+	
+	// 관계:C0020 ,코드 넘버, 이름 가져오기
+	public List<CodeMngDTO> codelist(){
+		return sqlSession.selectList("mybatis.codeMng.detailCodeList");
 	}
 }

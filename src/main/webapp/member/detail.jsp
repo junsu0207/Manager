@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -21,10 +22,9 @@
 			<tr>
 				<td> 관계 :
 				<td><select id="relation" name="relation" style="width:100%;" >
-					<option value="C0021">본인</option>
-					<option value="C0022">부모님</option>
-					<option value="C0023">동생</option>
-					<option value="C0024">지인</option>
+					<c:forEach var="code" items="${codeList }">
+						<option value="${code.cdno }">${code.cdname}</option>
+					</c:forEach>
 				</select>
 			</tr>
 			<tr>
@@ -72,6 +72,29 @@
 				document.detailForm.submit();
 			}
 		}
+		
+/* 		$(document).ready(function(){
+			$(document).on("change", "#relation", function(){
+				selectCdno();
+			});
+		});
+		
+		function selectCdno(){
+			var upcdData = $("#upcd").val();
+			console.log(upcdData);
+			$.ajax({
+				type : "post",
+				url : "/Manager/member/memberCode",
+				dataType : "json",
+				data : inputData,
+				error : function(error){
+					console.log("서버응답없음");
+				},
+				success : function(data){
+					alert("code data 성공");
+				}
+			});
+		} */
 	</script>
 </body>
 </html>

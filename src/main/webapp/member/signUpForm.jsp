@@ -39,6 +39,7 @@
 				e.preventDefault();
 				userIdCheck();
 			});
+			
 		});
 		function userIdCheck(){
 			var id = $("#id").val();
@@ -69,6 +70,7 @@
 				}
 			}
 		}
+		
 		
 		function checkWrite(){
 			var pwdCk1 = $("#password").val();

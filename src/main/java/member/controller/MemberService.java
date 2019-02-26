@@ -2,6 +2,7 @@ package member.controller;
 
 import java.util.List;
 
+import codeMng.bean.CodeMngDTO;
 import member.bean.MemberDTO;
 import member.bean.MemberDetailDTO;
 
@@ -17,6 +18,7 @@ public interface MemberService {
 	public int detailUser(MemberDetailDTO memberDetailDTO);
 	// 회원상세리스트
 	public List<MemberDetailDTO> list(String id);
-	
+	// code select
+	public List<CodeMngDTO> codeSelect();
 	
 }
