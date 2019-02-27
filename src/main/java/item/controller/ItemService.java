@@ -17,4 +17,6 @@ public interface ItemService {
 	public List<ItemDTO> itemList(String itemclscd);
 	// detail view
 	public ItemDTO detailView(String itemcd);
+	// select list 제조사,단위명
+	public List<ItemDTO> selectList();
 }

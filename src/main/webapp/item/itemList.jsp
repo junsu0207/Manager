@@ -9,7 +9,7 @@
 <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
 <body>
-	<table id="itemTable" border="1">
+	<table id="itemTable" border="1" style="padding-bottom:300px;">
 		<thead>
 			<tr>
 				<td colspan="9">    
@@ -38,9 +38,10 @@
 		<tbody id="resultTable"></tbody>
 	</table>
 	<div class="detailResult">
-		<table>
-			
-		</table>
+		<form action="" name="viewForm">
+			<input type="hidden" name="useyn" class="useyn" id="useyn">
+			<input type="hidden" name="cdno" class="cdno" id="cdno">
+		</form>
 	</div>
 	
 	<script type="text/javascript">
@@ -55,7 +56,14 @@
 				var index = $(".cdno").index(this);
 				var data = $("a:eq("+index+")").html();
 				console.log(index);
+				console.log("index data ==="+data);
 				itemDetail(data);
+			});
+			$(document).on("click", ".updateBtn", function(){
+				updateItem();
+			});
+			$(document).on("click", ".inputBtn", function(){
+				inputItem();
 			});
 		});
 		
@@ -76,12 +84,14 @@
 					$("#firstCategory").empty();
 					$.each(data.result, function(index, result){
 						$("#firstCategory").append("<option value="+result.cdno+">"+result.cdname+"</option>");
+						$(".cdno").val(result.cdno);
 					});
 				}
 			});
-			
-			
 		}
+		
+		
+		
 		function searchItem(){
 			if($("#firstCategory option:selected").val() == null){
 				alert("카테고리선택");
@@ -106,31 +116,30 @@
 						$.each(data.result, function(index, result){          
 							$('#itemTable > tbody').append    
 							('<tr>'+
-							'<td><a href=javascript: id="cdno" class="cdno"> '+result.itemcd+' </a></td>'+
-							'<td> '+result.itemName+' </td>'+
-							'<td> '+result.madenmcd+' </td>'+
-							'<td> '+result.madename+' </td>'+
-							'<td> '+result.itemunitcd+' </td>'+
-							'<td> '+result.unitcdname+' </td>'+
-							'<td> '+result.stockamt+' </td>'+
-							'<td> '+result.stockyn+' </td>'+
-							'<td> '+result.useyn+' </td>'+     
+							'<td><a href=javascript: id="cdno" class="cdno">'+result.itemcd+'</a></td>'+
+							'<td>'+result.itemName+'</td>'+
+							'<td>'+result.madenmcd+'</td>'+
+							'<td>'+result.madename+'</td>'+
+							'<td>'+result.itemunitcd+'</td>'+
+							'<td>'+result.unitcdname+'</td>'+
+							'<td>'+result.stockamt+'</td>'+
+							'<td>'+result.stockyn+'</td>'+
+							'<td>'+result.useyn+'</td>'+     
 							'</tr>');   
 						});
-						                    
 					}
 				});
-				
 			}
-			 
 		}
+		
 		
 		function itemDetail(ckcd){
 			var itemcd = {"itemcd" : ckcd};
 			console.log("전달받은 아이템 코드 == " + ckcd);
+			console.log("아이템 코드 키값 전달 == " + itemcd.itemcd);
 			$.ajax({
 				type : "post",
-				url : "/Manager/item/detailList",
+				url : "/Manager/item/itemView",
 				data : itemcd,
 				dataType : "json",
 				error : function(error){
@@ -138,27 +147,84 @@
 				},
 				success : function(data){
 					console.log("상세보기 컨트롤러 접속 성공");
-					console.log(data);
-					
-				/* 	$("#itemTable > tbody > tr").empty(); 
-					$.each(data.result, function(index, result){          
-						$('#itemTable > tbody').append    
-						('<tr>'+
-						'<td><a href=javascript: id="cdno" class="cdno"> '+result.itemcd+' </a></td>'+
-						'<td> '+result.itemName+' </td>'+
-						'<td> '+result.madenmcd+' </td>'+
-						'<td> '+result.madename+' </td>'+
-						'<td> '+result.itemunitcd+' </td>'+
-						'<td> '+result.unitcdname+' </td>'+
-						'<td> '+result.stockamt+' </td>'+
-						'<td> '+result.stockyn+' </td>'+
-						'<td> '+result.useyn+' </td>'+     
-						'</tr>');   
-					}); */
+					console.log("useyn === "+ data.result.useyn);
+					$(".itemTable").empty();
+					var resultTable = "";
+					resultTable += "<table border=1 align='center' class='itemTable' style='width : 100%;'>";
+					resultTable += "<tr>";
+					resultTable += "<td>코드내용</td>";
+					resultTable += "</tr>";
+					resultTable += "<tr>";
+					resultTable += "<td>상품코드 : <input type='text' name='itemcd' class='itemcd' value="+data.result.itemcd+"></td>";
+					resultTable += "</tr>";
+					resultTable += "<tr>";
+					resultTable += "<td>상 품 명 : <input type='text' name='itemName' value="+data.result.itemName+"></td>";
+					resultTable += "</tr>";
+					resultTable += "<tr>";
+					resultTable += "<td>제 조 사 : <select name='madename'class='madename'><option value="+data.result.madenmcd+">"+data.result.madename+"</option></select>";
+					resultTable += "단 위 명 : <select name='unitcdname' class='unitcdname'><option value="+data.result.itemunitcd+">"+data.result.unitcdname+"</option></select></td>";
+					resultTable += "</tr>";
+					resultTable += "<tr>";
+					resultTable += "<td>사용여부 : <input type='checkbox' name='useynCheck' id='useynCheck' value="+data.result.useyn+"></td>";
+					resultTable += "</tr>";
+					resultTable += "<tr>";
+					resultTable += "<td style='text-align: center;'>";
+					resultTable += "<input type='button' value='추가' class='inputBtn'>";
+					resultTable += "<input type='button' value='수정' class='updateBtn'>";
+					resultTable += "<input type='button' value='저장' class='submitBtn'></td>";
+					resultTable += "</tr>";
+					resultTable += "</table>";
+					$(".detailResult form").append(resultTable);
+					if(data.result.useyn == "Y"){
+						$("input:checkbox[name='useynCheck']").prop("checked", true);
+					}else{
+						$("input:checkbox[name='useynCheck']").prop("checked", false);
+					}
 				}
-				
 			});
 		}
+		function updateItem(){
+			console.log("updateItem test");
+			$("input:text[name='itemcd']").attr('disabled','disabled');
+			$(".madename option").remove();
+			$(".unitcdname option").remove();
+			if(!$("#useynCheck").prop("checked")){
+				$(".useyn").val('N');
+			}else{
+				$(".useyn").val('Y');
+			}
+			console.log("useyn check === " + $(".useyn").val());
+			$.ajax({
+				type : "post",
+				url : "/Manager/item/selectList",
+				dataType : "json",
+				error : function(error){
+					console.log("서버 응답 없음");
+				},
+				success : function(data){
+					console.log("selectList 성공");
+					$.each(data.result, function(index, result){          
+						$('.madename').append($('<option>',{
+							value : result.madenmcd,
+							text : result.madename
+						}));
+						$('.unitcdname').append($('<option>',{
+							value : result.itemunitcd,
+							text : result.unitcdname    
+						}));
+					});
+				}
+			});
+			
+		}
+		
+		function inputItem(){
+			console.log("inputItem test");
+			$(".itemcd").attr("disabled","disabled");
+			$(".itemTable").find("input[type='text']").val('');
+		}
+		
+		
 	</script>
 </body>
 </html>

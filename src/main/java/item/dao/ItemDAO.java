@@ -13,7 +13,7 @@ import item.bean.ItemDTO;
 public class ItemDAO {
 	@Autowired
 	SqlSessionTemplate sqlSession;
-	
+
 	// 대분류,카테고리 C0070
 	public List<CodeMngDTO> mainCategoryCode(){
 		return sqlSession.selectList("mybatis.codeMng.itemCodeList");
@@ -28,6 +28,9 @@ public class ItemDAO {
 	}
 	// detail view
 	public ItemDTO itemDetailView(String itemcd) {
-		return sqlSession.selectOne("mybatis.item.itemDetailView", itemcd);
+		return sqlSession.selectOne("mybatis.item.itemView", itemcd);
+	}
+	public List<ItemDTO> selectList(){
+		return sqlSession.selectList("mybatis.item.selectList");
 	}
 }

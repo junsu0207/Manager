@@ -21,7 +21,7 @@
 		FROM ITEMLIST WHERE ITEMCLSCD = #{itemclscd}
   	</select>
   	
-  	<select id="itemDetailView" parameterType="String" resultType="itemDTO">
+  	<select id="itemView" parameterType="String" resultType="itemDTO">
   		SELECT 
 		ITEMCD, 
 		ITEMNAME, 
@@ -37,5 +37,15 @@
 		ITEMCLSCD
 	 	FROM ITEMLIST WHERE ITEMCD = #{itemcd}
   	</select>
+  	
+  	<select id="selectList" resultType="itemDTO">
+  		SELECT DISTINCT
+  		MADENMCD,
+		(SELECT CDNAME FROM CODEMNG WHERE CDNO = MADENMCD ) as MADENAME,
+		ITEMUNITCD, 
+    	(SELECT CDNAME FROM CODEMNG WHERE CDNO = ITEMUNITCD) as UNITCDNAME 
+ 		FROM ITEMLIST
+  	</select>
+  	
   </mapper>
   

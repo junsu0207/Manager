@@ -67,15 +67,25 @@ public class ItemController {
 		return json(map);
 	}
 	
-	@RequestMapping(value="/item/detailList", produces="application/text; charset=utf8")
+	@RequestMapping(value="/item/itemView", produces="application/text; charset=utf8")
 	@ResponseBody
 	public String itemDetailView(HttpServletRequest request, ItemDTO itemDTO){
 		System.out.println("itemDetailView");
 		Map<String, Object> map = new HashMap<String, Object>();
 		String itemcd = request.getParameter("itemcd");
 		itemDTO = itemService.detailView(itemcd);
+//		System.out.println(itemDTO.toString());
 		System.out.println("itemcd ==== "+itemcd);
 		map.put("result", itemDTO);
+		return json(map);
+	}
+	
+	@RequestMapping(value="/item/selectList", produces="application/text; charset=utf8")
+	@ResponseBody
+	public String selectList(HttpServletRequest request, ItemDTO itemDTO){
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<ItemDTO> result = itemService.selectList();
+		map.put("result", result);
 		return json(map);
 	}
 	

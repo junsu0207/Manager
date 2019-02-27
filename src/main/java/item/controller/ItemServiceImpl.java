@@ -34,4 +34,9 @@ public class ItemServiceImpl implements ItemService{
 	public ItemDTO detailView(String itemcd) {
 		return itemDAO.itemDetailView(itemcd);
 	}
+
+	@Override
+	public List<ItemDTO> selectList() {
+		return itemDAO.selectList();
+	}
 }

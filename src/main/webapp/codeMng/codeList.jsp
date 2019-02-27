@@ -44,7 +44,7 @@
 					<td style="text-align: center;">코드내용</td>
 				</tr>
 				<tr>
-					<td id="temp">코드번호 : <input type="text" class="resultCdno" id="resultCdno" name="cdno"></td>
+					<td>코드번호 : <input type="text" class="resultCdno" id="resultCdno" name="cdno"></td>
 				</tr>
 				<tr>
 					<td>코드레벨 : <input type="text" class="resultCdlvl" id="resultCdlvl" name="cdlvl"></td>
