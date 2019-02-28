@@ -17,6 +17,13 @@ public interface ItemService {
 	public List<ItemDTO> itemList(String itemclscd);
 	// detail view
 	public ItemDTO detailView(String itemcd);
-	// select list 제조사,단위명
+	// select list 제조사,단위명 db쿼리 한번에
 	public List<ItemDTO> selectList();
+	// selectlist db쿼리 나눠져있음
+	public List<CodeMngDTO> madenameList();
+	public List<CodeMngDTO> unitcdnameList();
+	// update
+	public int itemUpdate(ItemDTO itemDTO);
+	// insert
+	public int itemInput(ItemDTO itemDTO);
 }

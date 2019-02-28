@@ -39,4 +39,24 @@ public class ItemServiceImpl implements ItemService{
 	public List<ItemDTO> selectList() {
 		return itemDAO.selectList();
 	}
+
+	@Override
+	public List<CodeMngDTO> madenameList() {
+		return itemDAO.madenameList();
+	}
+
+	@Override
+	public List<CodeMngDTO> unitcdnameList() {
+		return itemDAO.unitcdnameList();
+	}
+
+	@Override
+	public int itemUpdate(ItemDTO itemDTO) {
+		return itemDAO.itemUpdate(itemDTO);
+	}
+
+	@Override
+	public int itemInput(ItemDTO itemDTO) {
+		return itemDAO.itemInput(itemDTO);
+	}
 }

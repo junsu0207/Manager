@@ -38,13 +38,14 @@
 		<tbody id="resultTable"></tbody>
 	</table>
 	<div class="detailResult">
-		<form action="" name="viewForm">
+		<form action="" name="viewForm" class="viewForm">
 			<input type="hidden" name="useyn" class="useyn" id="useyn">
-			<input type="hidden" name="cdno" class="cdno" id="cdno">
+			<input type="hidden" name="itemclscd" class="itemclscd" id="itemclscd">
 		</form>
 	</div>
 	
 	<script type="text/javascript">
+		var bool;
 		$(document).ready(function(){
 			$(document).on("click", ".search", function(){
 				searchItem();
@@ -65,6 +66,10 @@
 			$(document).on("click", ".inputBtn", function(){
 				inputItem();
 			});
+			$(document).on("click", ".submitBtn", function(){
+				saveData();
+			});
+			
 		});
 		
 		function searchCategory(){
@@ -84,7 +89,6 @@
 					$("#firstCategory").empty();
 					$.each(data.result, function(index, result){
 						$("#firstCategory").append("<option value="+result.cdno+">"+result.cdname+"</option>");
-						$(".cdno").val(result.cdno);
 					});
 				}
 			});
@@ -99,6 +103,7 @@
 				console.log($("#itemCategory option:selected").val());
 				console.log($("#firstCategory option:selected").val());
 				var itemcd = $("#firstCategory option:selected").val();
+				$(".itemclscd").val(itemcd);
 				console.log("itemcd === " + itemcd);
 				var itemclscd = {"itemclscd" : itemcd};
 				$.ajax({
@@ -161,11 +166,11 @@
 					resultTable += "<td>상 품 명 : <input type='text' name='itemName' value="+data.result.itemName+"></td>";
 					resultTable += "</tr>";
 					resultTable += "<tr>";
-					resultTable += "<td>제 조 사 : <select name='madename'class='madename'><option value="+data.result.madenmcd+">"+data.result.madename+"</option></select>";
-					resultTable += "단 위 명 : <select name='unitcdname' class='unitcdname'><option value="+data.result.itemunitcd+">"+data.result.unitcdname+"</option></select></td>";
+					resultTable += "<td>제 조 사 : <select name='madenmcd'class='madename'><option value="+data.result.madenmcd+">"+data.result.madename+"</option></select>";
+					resultTable += "단 위 명 : <select name='itemunitcd' class='unitcdname'><option value="+data.result.itemunitcd+">"+data.result.unitcdname+"</option></select></td>";
 					resultTable += "</tr>";
 					resultTable += "<tr>";
-					resultTable += "<td>사용여부 : <input type='checkbox' name='useynCheck' id='useynCheck' value="+data.result.useyn+"></td>";
+					resultTable += "<td>사용여부 : <input type='checkbox' id='useynCheck' value="+data.result.useyn+"></td>";
 					resultTable += "</tr>";
 					resultTable += "<tr>";
 					resultTable += "<td style='text-align: center;'>";
@@ -184,17 +189,88 @@
 			});
 		}
 		function updateItem(){
+			bool = true;
 			console.log("updateItem test");
-			$("input:text[name='itemcd']").attr('disabled','disabled');
+			$("input:text[name='itemcd']").attr('disabled','disabled');	
 			$(".madename option").remove();
 			$(".unitcdname option").remove();
-			if(!$("#useynCheck").prop("checked")){
-				$(".useyn").val('N');
-			}else{
-				$(".useyn").val('Y');
-			}
+			console.log("useyn check === " + $(".useyn").val());
+	 		$.ajax({
+				type : "post",
+				url : "/Manager/item/madename",
+				dataType : "json",
+				error : function(error){
+					console.log("서버 응답 없음");
+				},
+				success : function(data){
+					$.each(data.result, function(index, result){
+						$('.madename').append($('<option>',{
+							value : result.cdno,
+							text : result.cdname    
+						}));
+					});        
+				}
+			});
+	 		$.ajax({
+				type : "post",
+				url : "/Manager/item/unitcdname",
+				dataType : "json",
+				error : function(error){
+					console.log("서버 응답 없음");
+				},
+				success : function(data){
+					$.each(data.result, function(index, result){
+						$('.unitcdname').append($('<option>',{
+							value : result.cdno,
+							text : result.cdname    
+						}));
+					});
+				}
+			});
+			
+		}
+		
+		function inputItem(){
+			bool = false;
+			console.log("inputItem test");
+			$(".itemcd").attr("disabled","disabled");
+			$(".itemTable").find("input[type='text']").val('');
+			$(".madename option").remove();
+			$(".unitcdname option").remove();
 			console.log("useyn check === " + $(".useyn").val());
 			$.ajax({
+				type : "post",
+				url : "/Manager/item/madename",
+				dataType : "json",
+				error : function(error){
+					console.log("서버 응답 없음");
+				},
+				success : function(data){
+					$.each(data.result, function(index, result){
+						$('.madename').append($('<option>',{
+							value : result.cdno,
+							text : result.cdname    
+						}));
+					});        
+				}
+			});
+	 		$.ajax({
+				type : "post",
+				url : "/Manager/item/unitcdname",
+				dataType : "json",
+				error : function(error){
+					console.log("서버 응답 없음");
+				},
+				success : function(data){
+					$.each(data.result, function(index, result){
+						$('.unitcdname').append($('<option>',{
+							value : result.cdno,
+							text : result.cdname    
+						}));
+					});
+				}
+			});
+		/* 	$.ajax({
 				type : "post",
 				url : "/Manager/item/selectList",
 				dataType : "json",
@@ -214,14 +290,58 @@
 						}));
 					});
 				}
-			});
+			}); */
 			
 		}
 		
-		function inputItem(){
-			console.log("inputItem test");
-			$(".itemcd").attr("disabled","disabled");
-			$(".itemTable").find("input[type='text']").val('');
+		function saveData(){
+			if(!$("#useynCheck").prop("checked")){
+				$(".useyn").val('N');
+			}else{
+				$(".useyn").val('Y');
+			}
+			var form = "";
+			console.log(bool);
+			if(bool == true){
+				$(".itemcd").attr("disabled", false);
+				form = $(".viewForm").serialize();
+				console.log("item Update Form ==== " + form);
+				$.ajax({
+					type : "post",
+					url : "/Manager/item/itemUpdate",
+					dataType : "json",
+					data : form,
+					error : function(error){
+						console.log("서버 응답 없음");
+					},
+					success : function(data){
+						alert(data.msg);
+						console.log(data.result);
+					}
+				});
+			}else if(bool == false){
+				$(".itemcd").attr("disabled", false);
+				form = $(".viewForm").serialize();
+				console.log("item input Form ==== " + form);
+				$.ajax({
+					type : "post",
+					url : "/Manager/item/itemInput",
+					dataType : "json",
+					data : form,
+					error : function(error){
+						console.log("서버 응답 없음");
+					},
+					success : function(data){
+						alert(data.msg);
+						console.log(data.result);
+					}
+				});
+			}else{
+				alert("추가, 수정 후 저장");
+			}
+			
+			
+			
 		}
 		
 		

@@ -38,14 +38,31 @@
 	 	FROM ITEMLIST WHERE ITEMCD = #{itemcd}
   	</select>
   	
-  	<select id="selectList" resultType="itemDTO">
+  	<!-- <select id="selectList" resultType="itemDTO">
   		SELECT DISTINCT
   		MADENMCD,
 		(SELECT CDNAME FROM CODEMNG WHERE CDNO = MADENMCD ) as MADENAME,
 		ITEMUNITCD, 
     	(SELECT CDNAME FROM CODEMNG WHERE CDNO = ITEMUNITCD) as UNITCDNAME 
  		FROM ITEMLIST
+  	</select> -->
+  	<select id="madenameList" resultType="codeMngDTO">
+  		SELECT CDNO, CDNAME FROM CODEMNG WHERE UPCD='C0050'
   	</select>
+  	<select id="unitcdnameList" resultType="codeMngDTO">
+  		SELECT CDNO, CDNAME FROM CODEMNG WHERE UPCD='C0060'
+  	</select>
+  	
+  	<update id="itemUpdate" parameterType="itemDTO">
+		UPDATE ITEMLIST SET ITEMNAME = #{itemName}, MADENMCD=#{madenmcd},
+		ITEMUNITCD=#{itemunitcd}, INSDATE=SYSDATE ,USEYN=#{useyn} WHERE ITEMCD = #{itemcd}
+  	</update>
+  	
+  	<insert id="itemInput" parameterType="itemDTO">
+		INSERT INTO ITEMLIST VALUES ((SELECT CONCAT('I',
+		LPAD(SUBSTR(MAX(ITEMCD),2)+1,4,0))FROM
+		ITEMLIST),#{itemName},#{madenmcd},#{itemunitcd},30,'Y','왈왈',SYSDATE,#{useyn}, #{itemclscd})
+  	</insert>
   	
   </mapper>
   

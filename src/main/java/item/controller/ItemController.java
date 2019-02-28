@@ -89,8 +89,61 @@ public class ItemController {
 		return json(map);
 	}
 	
+	@RequestMapping(value="/item/madename", produces="application/text; charset=utf8")
+	@ResponseBody
+	public String madenameList(HttpServletRequest request, ItemDTO itemDTO){
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<CodeMngDTO> madename = itemService.madenameList();
+		map.put("result", madename);
+		return json(map);
+	}
 	
+	@RequestMapping(value="/item/unitcdname", produces="application/text; charset=utf8")
+	@ResponseBody
+	public String unitcdname(HttpServletRequest request, ItemDTO itemDTO){
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<CodeMngDTO> unitcdname = itemService.unitcdnameList();
+		map.put("result", unitcdname);
+		return json(map);
+	}
 	
+	@RequestMapping(value="/item/itemUpdate", produces="application/text; charset=utf8")
+	@ResponseBody
+	public String itemUpdate(HttpServletRequest request, ItemDTO itemDTO) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		int count = itemService.itemUpdate(itemDTO);
+		System.out.println(itemDTO.toString());
+		String msg = "";
+		if(count > 0) {
+			msg = "성공";
+			map.put("msg", msg);
+			map.put("result", true);
+		}else {
+			msg = "실패";
+			map.put("msg", msg);
+			map.put("result", false);
+		}
+		return json(map);
+	}
+	
+	@RequestMapping(value="/item/itemInput", produces="application/text; charset=utf8")
+	@ResponseBody
+	public String itemInput(HttpServletRequest request, ItemDTO itemDTO) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		int count = itemService.itemInput(itemDTO);
+		System.out.println(itemDTO.toString());
+		String msg = "";
+		if(count > 0) {
+			msg = "성공";
+			map.put("msg", msg);
+			map.put("result", true);
+		}else {
+			msg = "실패";
+			map.put("msg", msg);
+			map.put("result", false);
+		}
+		return json(map);
+	}
 	
 	
 	

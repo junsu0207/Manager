@@ -30,7 +30,21 @@ public class ItemDAO {
 	public ItemDTO itemDetailView(String itemcd) {
 		return sqlSession.selectOne("mybatis.item.itemView", itemcd);
 	}
+	// select 리스트 db쿼리 한번에 
 	public List<ItemDTO> selectList(){
 		return sqlSession.selectList("mybatis.item.selectList");
+	}
+	// select 리스트 쿼리 나눠져있음
+	public List<CodeMngDTO> madenameList(){
+		return sqlSession.selectList("mybatis.item.madenameList");
+	}
+	public List<CodeMngDTO> unitcdnameList(){
+		return sqlSession.selectList("mybatis.item.unitcdnameList");
+	}
+	public int itemUpdate(ItemDTO itemDTO) {
+		return sqlSession.update("mybatis.item.itemUpdate", itemDTO);
+	}
+	public int itemInput(ItemDTO itemDTO) {
+		return sqlSession.insert("mybatis.item.itemInput", itemDTO);
 	}
 }
